@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 
 import java.io.File;
@@ -22,19 +23,19 @@ public class BaseTest {
 
     protected ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-    public void setDriver(WebDriver driver){
+    public void setDriver(WebDriver driver) {
 
         this.driver.set(driver);
     }
 
-    public WebDriver getDriver(){
+    public WebDriver getDriver() {
 
-       return this.driver.get();
+        return this.driver.get();
     }
 
     @Parameters({"Browser"})
     @BeforeMethod
-    public void startDriver(String Browser){
+    public void startDriver(String Browser) {
 
         setDriver(new DriverManager().initializeDriver(Browser));
 
@@ -44,44 +45,43 @@ public class BaseTest {
     @AfterMethod
     public void quitDriver(String Browser, ITestResult result) throws IOException {
 
-        if(result.getStatus() == ITestResult.FAILURE){
+        if (result.getStatus() == ITestResult.FAILURE) {
 
-            File DestFile = new File("Screenshot" + File.separator + Browser + dateTime()
-            + result.getTestClass().getRealClass().getSimpleName() + "_"
-            + result.getMethod().getMethodName() + ".png");
+            File DestFile = new File("Screenshot" + File.separator + Browser +  "_" + showDateTime()
+                    + File.separator + result.getTestClass().getRealClass().getSimpleName() + "_"
+                    + result.getMethod().getMethodName() + ".png");
 
             getScreenshot(DestFile);
 
+
         }
 
-
-
         getDriver().quit();
+
 
     }
 
     public void getScreenshot(File DestFile) throws IOException {
 
-        TakesScreenshot takesScreenshot = (TakesScreenshot) driver;
+        TakesScreenshot takesScreenshot = (TakesScreenshot) getDriver();
         File scr = takesScreenshot.getScreenshotAs(OutputType.FILE);
         FileUtils.copyFile(scr, DestFile);
 
     }
 
 
+    @BeforeTest
+    public void beforeTest() {
 
-    public void getDateTime(){
-
-         dateAndTime = testUtils.getDateTime();
+        dateAndTime = testUtils.getDateTime();
 
     }
 
-    public String dateTime(){
+    public String showDateTime() {
 
         return dateAndTime;
 
     }
-
 
 
 }

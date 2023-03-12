@@ -2,6 +2,7 @@ package Org.Policy.Tests;
 
 import Org.Policy.Base.BaseTest;
 import Org.Policy.Pom.HomePage;
+import Org.Policy.Pom.TravelOutOfUAE;
 import Org.Policy.Utils.TestUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -16,6 +17,7 @@ public class TravelInsuranceTests extends BaseTest {
 
     HomePage homePage;
     TestUtils testUtils;
+    TravelOutOfUAE travelOutOfUAE;
 
     Properties props;
     InputStream GlobalProps;
@@ -47,6 +49,7 @@ public class TravelInsuranceTests extends BaseTest {
 
         homePage = new HomePage(getDriver());
         testUtils = new TestUtils();
+        travelOutOfUAE = new TravelOutOfUAE(getDriver());
 
         testUtils.log().info(m.getName());
 
@@ -57,6 +60,9 @@ public class TravelInsuranceTests extends BaseTest {
     public void getTravelInsuranceQuote(){
 
         homePage.loadUrl(props.getProperty("policyBazaarUrl"));
+        homePage.assertHmPgLogo();
+
+        travelOutOfUAE = homePage.clickTravelInsurance();
 
     }
 
