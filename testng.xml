@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+
+<listeners>
+    <listener class-name="Org.Policy.Listeners.TestListener"/>
+</listeners>
+
+    <test name="PolicyBazaar03">
+
+        <parameter name="Browser" value="chrome"/>
+
+        <classes>
+            <class name="Org.Policy.Tests.TravelInsuranceTests"/>
+        </classes>
+    </test>
+</suite>
